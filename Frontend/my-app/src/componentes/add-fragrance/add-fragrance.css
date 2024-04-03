@@ -1,0 +1,79 @@
+/* add-fragrance.css */
+
+.container {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .form-group {
+    margin-bottom: 20px;
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"],
+  input[type="checkbox"],
+  input[type="number"],
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  input[type="text"]::placeholder,
+  input[type="email"]::placeholder,
+  input[type="number"]::placeholder,
+  input[type="checkbox"]::placeholder,
+  input[type="password"]::placeholder {
+    color: #999; /* Color del texto del placeholder */
+  }
+  
+  *{box-sizing: border-box;}
+  
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background-color: #0056b3;
+  }
+  
+  form{
+    width: 40%;
+  }
+  
+  h2{
+    width: 100%;
+    text-align: center;
+  }
+  
+  div.add-fragrance{
+    margin: 0px 30px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  button{
+    margin-bottom: 50px;
+  }
+  
+  @media screen and (max-width: 768px) {
+    div.add-fragrance{
+      margin: 0px 10px;
+    }
+    form{
+      width: 100%;
+    }
+  }

@@ -1,0 +1,14 @@
+main{
+    padding: 50px 0px 50px 0px;
+  }
+  
+  h1{
+    text-transform: capitalize;
+    margin-bottom: 40px;
+  }
+  
+  @media only screen and (min-width: 768px)  {
+    main{
+        padding: 90px;
+    }
+  }

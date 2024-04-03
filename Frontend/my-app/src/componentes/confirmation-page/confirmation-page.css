@@ -1,0 +1,15 @@
+.confirmation-container {
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .confirmation-title {
+    font-size: 24px;
+    color: #333;
+  }
+  
+  .confirmation-message {
+    font-size: 18px;
+    color: #666;
+  }
+  

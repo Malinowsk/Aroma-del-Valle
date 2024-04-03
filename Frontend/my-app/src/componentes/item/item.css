@@ -1,0 +1,71 @@
+.card-container{
+    
+    margin-top: 20px;
+    background-color: ivory;
+    border: 1px solid ivory;
+}
+.item-container p{
+    margin: 15px;
+}
+
+.item-container {
+     display: flex;
+     flex-direction: column;
+     align-items: center;
+     align-content: center;
+     flex-wrap: wrap;
+     padding: 10px 0px;
+
+}
+
+.item-container button {
+    width: 70%;
+    background-color: #beb0a7;
+    border: 1px solid ivory;
+    color: ivory;
+    border-radius: 8px;
+    padding: 5px 20px;
+}
+
+.card-container img{
+   width: 70%;
+   height: auto;
+   
+}
+
+.ItemCount{
+       display: grid;
+       grid-template-columns: 1fr;
+    
+}
+
+.card-container1{
+    width: 85%;
+    display: flex;
+    justify-content: center;
+}
+.button-comprar {
+    text-decoration: none;
+    color: ivory;
+}
+
+.item-container button:hover{
+    background-color: #f8ac18;
+}
+
+.card-container1:hover {
+    box-shadow: 0px 0px 20px black;
+}
+
+@media only screen and (min-width: 768px)  {
+     .card-container img{
+        width: 50%;
+        height: 250px;
+    } 
+
+     .card-container1{
+        width: auto;
+        display: initial;
+        justify-content: initial;
+     }
+}
