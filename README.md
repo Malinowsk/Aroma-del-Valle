@@ -1,4 +1,4 @@
-# Nombre del Proyecto
+# Alquimia
 
 Este proyecto es una aplicación web desarrollada para gestionar información relacionada con perfumes. La arquitectura de la aplicación se basa en microservicios y sigue un enfoque de desarrollo moderno utilizando tecnologías como Spring Boot para el backend y React.js para el frontend.
 
