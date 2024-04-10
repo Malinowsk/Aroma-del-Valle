@@ -1,0 +1,107 @@
+.detail-container{
+    
+    background-color: ivory;
+  }
+
+  
+  
+  .grid-container{
+       
+      display: grid;
+      grid-template-columns: 1fr;
+      background-color: white;
+      height: 1000px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      grid-template-areas: "imagen" "detalles" "pregunta" ;
+  }
+ 
+ .mensaje{
+     margin-top: 10px;
+  }
+ 
+  .data-container{
+      display: flex ;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 400px;
+      text-align: start;
+        margin-left: 20px;
+  }
+  .data-container h1{
+      border-bottom: .5px  solid black;
+      font-size: 22px;
+    }
+  
+  
+.descripcion-container{
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+      
+}
+
+  .descripcion-container p{
+    margin: 20px 0px 0px 0px;
+  }
+  
+  
+  .image-container{
+      display: flex;
+      justify-content: center;
+  }
+  
+  
+ .image-container img{
+     border: 8px solid black;
+     width: 95%;
+     height: 80%;
+ }
+  
+ .image-container img:hover {
+     box-shadow: 0px 0px 20px black;
+ }
+
+ .itemdetail-container .boton{
+    width: 20%;
+ }
+
+ .image-container{
+    grid-area: imagen;
+ }
+
+ .data-container{
+    grid-area: detalles;
+ }
+
+ .pregunta-container{
+    grid-area: pregunta;
+ }
+
+ .altura{
+    height: 900px !important;
+ }
+ 
+ @media only screen and (min-width: 400px)  {
+     .image-container img{
+     
+         width: 400px;
+         height: 400px;
+     }
+ 
+ }
+ 
+ 
+ @media only screen and (min-width: 768px)  {
+     
+     .grid-container{
+         grid-template-columns: 1fr 1fr;
+        height: 500px;
+         column-gap: 80px; /* Cambia este valor según el espacio que desees */
+         grid-template-areas: "imagen detalles" "pregunta pregunta" ;
+     }
+ 
+     
+ 
+     }

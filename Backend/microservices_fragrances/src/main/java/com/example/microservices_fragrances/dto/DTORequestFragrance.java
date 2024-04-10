@@ -20,9 +20,14 @@ public class DTORequestFragrance {
     private int volume;
     private String country;
     private String aromas;
-    private MultipartFile image;
+    private MultipartFile[] image;
+    private int installments; //cuotas
+    private float interest_on_installments; // interes por cuotas
+    private Boolean free_shipping; // envio gratis
+    private Boolean best_seller; // más vendido
+    private String description;
 
-    public DTORequestFragrance(String name, String brand, float price, String gender, int volume, String country, String aromas,MultipartFile image) {
+    public DTORequestFragrance(String name, String brand, float price, String gender, int volume, String country, String aromas,MultipartFile[] image, int installments, float interest_on_installments, boolean free_shipping ,boolean best_seller ,String description) {
         this.name = name;
         this.brand = brand;
         this.price = price;
@@ -31,6 +36,12 @@ public class DTORequestFragrance {
         this.country = country;
         this.aromas = aromas;
         this.image = image;
+        this.installments = installments;
+        this.interest_on_installments = interest_on_installments;
+        this.free_shipping = free_shipping;
+        this.best_seller = best_seller;
+        this.description = description;
+
     }
 
     public DTORequestFragrance(Fragrance dto) {
@@ -43,5 +54,10 @@ public class DTORequestFragrance {
         this.country = dto.getCountry();
         this.aromas = dto.getAromas();
         //this.image = dto.getImage();
+        this.installments = dto.getInstallments();
+        this.interest_on_installments = dto.getInterest_on_installments();
+        this.free_shipping = dto.getFree_shipping();
+        this.best_seller = dto.getBest_seller();
+        this.description = dto.getDescription();
     }
 }

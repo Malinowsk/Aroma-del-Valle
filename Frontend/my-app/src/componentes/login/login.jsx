@@ -6,7 +6,8 @@ import {contexto} from '../../context/auth-provider/auth-provider';
 
 
 const Login = () => {
-  
+  const [incorrect, setIncorrect] = useState(false);
+  const [loading, setLoading] = useState(false);
   const resultado = useContext(contexto);
   
   const [formData, setFormData] = useState({
@@ -26,7 +27,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-
+      setLoading(true);
       // Simulamos una llamada a una API (puedes sustituir esto con tu lógica real)
       const response = await fetch("http://localhost:8080/api/auth/authenticate", {
         method: 'POST',
@@ -46,6 +47,8 @@ const Login = () => {
       } else {
         // La respuesta no fue exitosa, puedes manejar el error de registro
         console.error('Error en el registro');
+        setLoading(false);
+        setIncorrect(true);
         navigate('/login');
       }
     } catch (error) {
@@ -56,32 +59,45 @@ const Login = () => {
 
   return (
     <div className='login'>
-      <h2>Iniciar Sesión</h2>
-      <form onSubmit={handleSubmit} method='post'>
-        <label>
-          Correo Electrónico:
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-        <label>
-          Contraseña:
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-          />
-        </label>
-        <br />
-        <button type="submit">Inicio Sesión</button>
-      </form>
+      {loading ?
+        <p className='cargando'>Cargando, espere un momento...</p>
+      :
+      <>
+        <h2>Iniciar Sesión</h2>
+
+        { incorrect ?
+        <p className='alerta'>Correo electrónico o contraseña incorrectos</p>
+        : ""
+        }
+
+        <form onSubmit={handleSubmit} method='post'>
+          <label>
+            Correo Electrónico:
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+            />
+          </label>
+          <br />
+          <label>
+            Contraseña:
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+            />
+          </label>
+          <br />
+          <button type="submit">Inicio Sesión</button>
+        </form>
+      </>
+      }
     </div>
   );
+
 };
 
 export default Login;

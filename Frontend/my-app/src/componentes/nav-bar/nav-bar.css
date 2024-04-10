@@ -13,7 +13,9 @@
   }
   
   .navbar-logo {
-    font-size: 24px;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
   }
   
   .navbar-logo-link {
@@ -46,6 +48,10 @@
     display: none;
     cursor: pointer;
   }
+
+  .logo{
+    height: 2rem;
+}
   
   @media screen and (max-width: 768px) {
     .navbar-menu {

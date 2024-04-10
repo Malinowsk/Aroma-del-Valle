@@ -1,11 +1,21 @@
+a{
+    text-decoration: none !important;
+}
+
 .card-container{
-    
-    margin-top: 20px;
     background-color: ivory;
-    border: 1px solid ivory;
 }
 .item-container p{
-    margin: 15px;
+    width: 95%;
+}
+
+.imag{
+    height: 355px;
+}
+
+.detalles-card{
+    height: 202.5px;
+    /* justify-content: space-evenly; */
 }
 
 .item-container {
@@ -14,14 +24,63 @@
      align-items: center;
      align-content: center;
      flex-wrap: wrap;
-     padding: 10px 0px;
+     padding: 0px;
 
+}
+.raya-top{
+    border-top: 1px solid gray;
+    padding: 5px;
+    align-items: flex-start;
+}
+
+.item{
+    color: #481871;
+    cursor: pointer;
+    border-bottom: 1px solid gray;
+}
+
+h3.titulo-card{
+    text-transform: uppercase;
+}
+
+.espacio-botton{
+    margin-bottom: 5px;
+}
+
+.precio{
+    font-weight: bolder;
+    font-size: 1.6rem;
+}
+
+.titulo-card{
+    margin-top: 5px;
+    width: 95%;
+    text-align: start;
+}
+
+.envio-gratis{
+    color: white;
+    background-color: #f8ac18;
+    border-radius: 5px;
+    padding: 0px 4px;
+    width: fit-content !important;
+}
+
+span.mismo-precio{
+    background-color: greenyellow;
+    border-radius: 5px;
+    padding: 0px 4px;
+}
+
+.cuotas{
+    color: green;
+    /* ;background-color: greenyellow; */
+    width: auto !important;
 }
 
 .item-container button {
     width: 70%;
     background-color: #beb0a7;
-    border: 1px solid ivory;
     color: ivory;
     border-radius: 8px;
     padding: 5px 20px;
@@ -30,13 +89,12 @@
 .card-container img{
    width: 70%;
    height: auto;
-   
 }
 
 .ItemCount{
        display: grid;
        grid-template-columns: 1fr;
-    
+
 }
 
 .card-container1{
@@ -49,6 +107,10 @@
     color: ivory;
 }
 
+.button-card{
+    margin-bottom: 0px;
+}
+
 .item-container button:hover{
     background-color: #f8ac18;
 }
@@ -59,9 +121,9 @@
 
 @media only screen and (min-width: 768px)  {
      .card-container img{
-        width: 50%;
-        height: 250px;
-    } 
+        width: 100%;
+        max-height: 355px;
+    }
 
      .card-container1{
         width: auto;

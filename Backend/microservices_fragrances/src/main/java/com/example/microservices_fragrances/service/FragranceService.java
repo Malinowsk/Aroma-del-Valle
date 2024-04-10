@@ -48,51 +48,43 @@ public class FragranceService {
         List<Fragrance> result = this.fragranceRepository.findAll().stream().map( Fragrance::new ).toList();
         List<DTOResponseFragrance> retorno = new ArrayList<>();
         for(Fragrance f: result){
-            DTOResponseFragrance local = new DTOResponseFragrance(f);
-            String adicional = f.getImage().replace("\\","/");
-            String[] parts = adicional.split("/");
-            local.setImage(loadAsResource(parts[parts.length-1]));
-            retorno.add(local);
+            retorno.add(loadimages(f));
         }
         return retorno;
     }
 
     @Transactional
-    public DTOResponseFragrance findById(Long id ){
-        return this.fragranceRepository.findById( id )
-                .map( DTOResponseFragrance::new )
-                .orElseThrow( () -> new NotFoundException("fragrance", id));
+    public DTOResponseFragrance findById(Long id ) throws IOException {
+        Fragrance f = this.fragranceRepository.findById( id ).map( Fragrance::new ).orElseThrow( () -> new NotFoundException("fragrance", id));
+        return loadimages(f);
     }
 
+    private DTOResponseFragrance loadimages(Fragrance f) throws IOException {
+        DTOResponseFragrance local = new DTOResponseFragrance(f);
+        for (String s: f.getImage()) {
+            String adicional = s.replace("\\", "/");
+            String[] parts = adicional.split("/");
+            local.addImage(loadAsResource(parts[parts.length - 1]));
+        }
+            return local;
+    }
 
     @Transactional
     public DTOResponseFragrance save(DTORequestFragrance request){
-        MultipartFile file = request.getImage();
+        MultipartFile[] files = request.getImage();
         try {
-            if(file.isEmpty()) {
-                throw new IllegalArgumentException("Archivo vacio");
-            }
-            Path rootDir = Paths.get(UrlImages);
-            // Crea el directorio si no existe
-            Files.createDirectories(rootDir);
-            Path destination = rootDir.resolve(Objects.requireNonNull(file.getOriginalFilename())).normalize().toAbsolutePath();
-
-
-            try (InputStream inputStream = file.getInputStream()){
-                Files.copy(inputStream, destination, StandardCopyOption.REPLACE_EXISTING);
-            }
-
-            Fragrance fragrance = new Fragrance(request);
-            fragrance.setImage(UrlImages+file.getOriginalFilename());
+            Fragrance fragrance = algo(files,request);
             Fragrance result = this.fragranceRepository.save(fragrance);
             DTOResponseFragrance retorno = new DTOResponseFragrance(result);
-            retorno.setImage(loadAsResource(file.getOriginalFilename()));
+
+            for (MultipartFile file: files) {
+                retorno.addImage(loadAsResource(file.getOriginalFilename()));
+            }
             return retorno;
 
         } catch (IOException e) {
             throw new IllegalStateException("Error al guardar la imagen");
         }
-
     }
 
     public String loadAsResource(String filePath) throws IOException {
@@ -108,6 +100,27 @@ public class FragranceService {
         return base64Image;
     }
 
+    private Fragrance algo(MultipartFile[] files, DTORequestFragrance request) throws IOException {
+        if (files[0].isEmpty()) {
+            throw new IllegalArgumentException("Archivo vacio");
+        }
+        Path rootDir = Paths.get(UrlImages);
+        // Crea el directorio si no existe
+        Files.createDirectories(rootDir);
+        Fragrance fragrance = new Fragrance(request);
+
+        for (MultipartFile file: files) {
+            Path destination = rootDir.resolve(Objects.requireNonNull(file.getOriginalFilename())).normalize().toAbsolutePath();
+            try (InputStream inputStream = file.getInputStream()) {
+                Files.copy(inputStream, destination, StandardCopyOption.REPLACE_EXISTING);
+            }
+
+            fragrance.addImage(UrlImages + file.getOriginalFilename());
+        }
+        return fragrance;
+    }
+
+
     @Transactional
     public void delete(Long id) {
         this.fragranceRepository.delete(this.fragranceRepository.findById(id).orElseThrow(
@@ -115,14 +128,14 @@ public class FragranceService {
     }
 
     @Transactional
-    public Fragrance update(Long id, DTORequestFragrance request) {
+    public DTOResponseFragrance update(Long id, DTORequestFragrance request) throws IOException {
         Fragrance fragrance = this.fragranceRepository.findById(id).orElseThrow(
                 () -> new NotFoundException("No se encontro fragancia con ID: " + id));
-
-        fragrance.setName(request.getName());
-        //rent.setPhone_number(request.getPhone_number());
-        //rent.setEmail(request.getEmail());
-
-        return this.fragranceRepository.save(fragrance);
+        System.out.println(fragrance);
+        Fragrance retorno = algo(request.getImage(),request);
+        retorno.setId(id);
+        System.out.println(retorno);
+        Fragrance f = this.fragranceRepository.save(retorno);
+        return loadimages(f);
     }
 }

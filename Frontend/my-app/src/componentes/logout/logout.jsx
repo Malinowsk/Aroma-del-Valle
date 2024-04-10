@@ -23,11 +23,15 @@ const LogOut = () => {
   return (
     <div className='login'>
       <h2>Cerrar Sesión</h2>
-        <p>¿Seguro que deseas cerrar sesión?</p>
-        <div className='botones'>
-            <button type="button" onClick={cerrarSesion}>Si</button>
-            <button type="button" onClick={noCerrarSesion}>No</button>
+      <p>¿Estás seguro de que quieres cerrar la sesión?</p>
+      <div className='botones'>
+        <div className='boton'>
+          <button type="button" onClick={cerrarSesion}>Si</button>
         </div>
+        <div className='boton'>
+          <button type="button" onClick={noCerrarSesion}>No</button>
+        </div>
+      </div>
     </div>
   );
 };

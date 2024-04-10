@@ -5,7 +5,28 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+    background-attachment: fixed ! IMPORTANT;
+    background-position: right;
+    background-size: cover !IMPORTANT;
+    /* background: url(C:\1.png); */
+    background-size: contain;
+    color: #481871;
+    
 }
+
+button{
+  background: linear-gradient(135deg,#900549 0,#481871 100%);
+}
+
+nav{
+  background: linear-gradient(135deg,#900549 0,#481871 100%);
+}
+footer{
+  background: linear-gradient(135deg,#900549 0,#481871 100%);
+}
+
+
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',

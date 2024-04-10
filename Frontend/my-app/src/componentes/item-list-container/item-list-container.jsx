@@ -2,16 +2,13 @@ import React, { useEffect, useState } from "react";
 import './item-list-container.css';
 import ItemList from "../item-list/item-list";
 import { useParams } from "react-router";
-//import { productsCollection } from '../../firebaseConfig';
-//import { getDocs , query , where } from "firebase/firestore";
-// import { toast } from "react-toastify";
 
-function ItemListContainer() {
+
+function ItemListContainer({action}) {
 
   const { id } = useParams();
   const [productos, setProductos] = useState([]);
   const [loading, setLoading] = useState(true);
-
 
 
     useEffect(() => {
@@ -61,16 +58,26 @@ function ItemListContainer() {
       <h1>
         {id ? `Fragancias ${id}` : "Todas las fragancias"}
       </h1>
+      {action==="update" ? 
+      <h2>
+        Elige que fragancia actualizar!
+      </h2>
+      : action==="delete" ? 
+      <h2>
+        Elige que fragancia eliminar!
+      </h2> 
+      : ""}
+
       <div>
         {loading ?
         (
           <p>Cargando, espere un momento...</p>
         ) : productos.length > 0 ?
           (
-             <ItemList items={productos}/>
+             <ItemList action={action} items={productos}/>
           ) :
             (
-              <p>No hay fragancias de esta categoria</p>
+              <p>No hay fragancias</p>
             )
         }
       </div>

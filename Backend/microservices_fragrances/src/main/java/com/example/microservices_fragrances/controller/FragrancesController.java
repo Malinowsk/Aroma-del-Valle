@@ -45,16 +45,15 @@ public class FragrancesController {
                                   @RequestPart("volume") String volume,
                                   @RequestPart("country") String country,
                                   @RequestPart("aromas") String aromas,
-                                  @RequestPart("image") MultipartFile image){
+                                  @RequestParam("images[]") MultipartFile[] images,
+                                  @RequestPart("installments") String installments,
+                                  @RequestPart("interest_on_installments") String interest_on_installments,
+                                  @RequestPart("free_shipping") String free_shipping,
+                                  @RequestPart("best_seller") String best_seller,
+                                  @RequestPart("description") String description
+    ){
         try {
-            DTOResponseFragrance retorno = fragrancesService.save(new DTORequestFragrance(name,brand,Float.parseFloat(price),gender,Integer.parseInt(volume),country,aromas,image));
-            //String contentType = Files.probeContentType(retorno.getImage().getFile().toPath());
-            //HttpHeaders headers = new HttpHeaders();
-            //headers.setContentLength(Files.size(Paths.get(retorno.getImage().getURI())));
-            //headers.setContentType(MediaType.IMAGE_PNG);
-            return new ResponseEntity(retorno, HttpStatus.CREATED);
-            //return ResponseEntity.status(HttpStatus.CREATED).body(retorno);
-
+            return new ResponseEntity(fragrancesService.save(new DTORequestFragrance(name,brand,Float.parseFloat(price),gender,Integer.parseInt(volume),country,aromas,images, Integer.parseInt(installments), Float.parseFloat(interest_on_installments), Boolean.parseBoolean(free_shipping) ,Boolean.parseBoolean(best_seller) ,description)), HttpStatus.CREATED);
         }catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Ocurrió un error, revise los datos ingresados.");
         }
@@ -75,26 +74,33 @@ public class FragrancesController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error. No existe la fragancia con el ID: "+id);
         }
     }
-
-
-
-
-
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteFragrance(@PathVariable Long id){
         try{
             this.fragrancesService.delete(id);
-            return ResponseEntity.status(HttpStatus.OK).body("Se elimino correctamente la fragancia con el id: " + id);
+            return ResponseEntity.status(HttpStatus.OK).body("id:"+id);
         }catch (Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error. No se pudo eliminar la fragancia con id: " + id);
         }
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> editFragrance(@PathVariable Long id, @RequestBody @Validated DTORequestFragrance request){
+    public ResponseEntity<?> editFragrance(@PathVariable Long id, @RequestPart("name") String name,
+                                           @RequestPart("brand") String brand,
+                                           @RequestPart("price") String price,
+                                           @RequestPart("gender") String gender,
+                                           @RequestPart("volume") String volume,
+                                           @RequestPart("country") String country,
+                                           @RequestPart("aromas") String aromas,
+                                           @RequestParam("images[]") MultipartFile[] images,
+                                           @RequestPart("installments") String installments,
+                                           @RequestPart("interest_on_installments") String interest_on_installments,
+                                           @RequestPart("free_shipping") String free_shipping,
+                                           @RequestPart("best_seller") String best_seller,
+                                           @RequestPart("description") String description){
         try {
-            Fragrance fragrance = fragrancesService.update(id,request);
-            DTOResponseFragrance response = new DTOResponseFragrance(fragrance);
+            DTOResponseFragrance response = fragrancesService.update(id,new DTORequestFragrance(name,brand,Float.parseFloat(price),gender,Integer.parseInt(volume),country,aromas,images, Integer.parseInt(installments), Float.parseFloat(interest_on_installments), Boolean.parseBoolean(free_shipping) ,Boolean.parseBoolean(best_seller) ,description));
+            System.out.println(response);
             return ResponseEntity.status(HttpStatus.OK).body(response);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("No se pudo editar la fragancia con el ID: "+id);

@@ -64,6 +64,13 @@
   button{
     margin-bottom: 20px;
   }
+
+  .alerta{
+    color: red;
+    width: 100%;
+    text-align: center;
+    margin: 20px;
+  }
   
   @media screen and (max-width: 768px) {
     div.login{

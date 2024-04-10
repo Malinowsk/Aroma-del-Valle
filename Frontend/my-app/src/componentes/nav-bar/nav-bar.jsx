@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import { NavLink } from 'react-router-dom';
 import './nav-bar.css'; // Importa el archivo de estilos CSS para el Navbar
 import {contexto} from '../../context/auth-provider/auth-provider';
+import logo from '../../logo.svg';  
 
 
 const NavBar = () => {
@@ -17,17 +18,18 @@ const NavBar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-logo">
-          <NavLink to="/" className="navbar-logo-link">Logo</NavLink>
+          <img className="logo" src={logo} alt="robot" />
+          <NavLink to="/" className="navbar-logo-link">Aroma del Valle</NavLink>
         </div>
         <ul className={isMenuOpen ? "navbar-menu active" : "navbar-menu"}>
           { resultado.token ?
             (
             <>
               <li className="navbar-item">
-                <NavLink to="/admin-fragrance" className="navbar-link" activeclassname="active">Administración</NavLink>
+                <NavLink to="/administration" className="navbar-link" activeclassname="active">Administración</NavLink>
               </li>
               <li className="navbar-item">
-                <NavLink to="/log-out" className="navbar-link" activeclassname="active">LogOut</NavLink>
+                <NavLink to="/log-out" className="navbar-link" activeclassname="active">Cerrar Sesión</NavLink>
               </li>
             </>) 
             : 

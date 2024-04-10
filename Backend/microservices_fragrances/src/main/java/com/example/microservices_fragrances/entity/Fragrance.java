@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -32,10 +34,22 @@ public class Fragrance implements Serializable {
     private String country;
     @Column
     private String aromas;
+    @ElementCollection
+    private List<String> image = new ArrayList<String>();
     @Column
-    private String image;
+    private int installments; //cuotas
+    @Column
+    private float interest_on_installments; // interes por cuotas
+    @Column
+    private Boolean free_shipping; // envio gratis
+    @Column
+    private Boolean best_seller; // más vendido
+    @Column
+    private String description;
 
-    public Fragrance(String name, String brand, float price, String gender, int volume, String country, String aromas,String image) {
+
+
+    public Fragrance(String name, String brand, float price, String gender, int volume, String country, String aromas,ArrayList<String> image , int installments, float interest_on_installments, boolean free_shipping ,boolean best_seller ,String description) {
         this.name = name;
         this.brand = brand;
         this.price = price;
@@ -44,6 +58,11 @@ public class Fragrance implements Serializable {
         this.country = country;
         this.aromas = aromas;
         this.image = image;
+        this.installments = installments;
+        this.interest_on_installments = interest_on_installments;
+        this.free_shipping = free_shipping;
+        this.best_seller = best_seller;
+        this.description = description;
     }
 
     public Fragrance(DTORequestFragrance dto) {
@@ -55,6 +74,11 @@ public class Fragrance implements Serializable {
         this.country = dto.getCountry();
         this.aromas = dto.getAromas();
         //this.image = dto.getImage();
+        this.installments = dto.getInstallments();
+        this.interest_on_installments = dto.getInterest_on_installments();
+        this.free_shipping = dto.getFree_shipping();
+        this.best_seller = dto.getBest_seller();
+        this.description = dto.getDescription();
     }
     public Fragrance(DTOResponseFragrance dto) {
         this.id = dto.getId();
@@ -66,6 +90,11 @@ public class Fragrance implements Serializable {
         this.country = dto.getCountry();
         this.aromas = dto.getAromas();
         //this.image = dto.getImage();
+        this.installments = dto.getInstallments();
+        this.interest_on_installments = dto.getInterest_on_installments();
+        this.free_shipping = dto.getFree_shipping();
+        this.best_seller = dto.getBest_seller();
+        this.description = dto.getDescription();
     }
 
     public Fragrance(Fragrance dto) {
@@ -78,5 +107,14 @@ public class Fragrance implements Serializable {
         this.country = dto.getCountry();
         this.aromas = dto.getAromas();
         this.image = dto.getImage();
+        this.installments = dto.getInstallments();
+        this.interest_on_installments = dto.getInterest_on_installments();
+        this.free_shipping = dto.getFree_shipping();
+        this.best_seller = dto.getBest_seller();
+        this.description = dto.getDescription();
+    }
+
+    public void addImage(String ruta){
+        image.add(ruta);
     }
 }
