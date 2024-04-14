@@ -44,7 +44,7 @@ h3.titulo-card{
 }
 
 .espacio-botton{
-    margin-bottom: 5px;
+    margin-bottom: 5px !important;
 }
 
 .precio{
@@ -53,6 +53,7 @@ h3.titulo-card{
 }
 
 .titulo-card{
+    margin-bottom: 1px;
     margin-top: 5px;
     width: 95%;
     text-align: start;
@@ -94,7 +95,6 @@ span.mismo-precio{
 .ItemCount{
        display: grid;
        grid-template-columns: 1fr;
-
 }
 
 .card-container1{

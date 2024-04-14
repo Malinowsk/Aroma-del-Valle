@@ -12,7 +12,7 @@ body {
     /* background: url(C:\1.png); */
     background-size: contain;
     color: #481871;
-    
+
 }
 
 button{
@@ -26,14 +26,3 @@ footer{
   background: linear-gradient(135deg,#900549 0,#481871 100%);
 }
 
-
-
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
-}
-
-*{
-  margin: 0px;
-  padding: 0px;
-}

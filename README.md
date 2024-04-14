@@ -67,3 +67,10 @@ Las contribuciones son bienvenidas. Si deseas contribuir al proyecto, por favor 
 ## Licencia
 
 Este proyecto está bajo la Licencia [MIT](LICENSE).
+
+## Demostración
+
+¡Mira una demostración del software en acción!
+
+[![Demostración del Software](portada.png)](https://www.youtube.com/watch?v=7r5e_UW9vAY)
+

@@ -3,7 +3,7 @@ import './update-fragrance.css'; // Asegúrate de ajustar la ruta si es necesari
 //import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useParams } from 'react-router';
-import { array } from 'prop-types';
+
 
 const UpdateFragrance = () => {
 
@@ -17,7 +17,7 @@ const UpdateFragrance = () => {
     // const [index, setIndex] = useState(0);
     const [selectedfile, setSelectedfile] = useState([]);
     
-    const [RegistroExitoso, setRegistroExitoso] = useState(true);
+    const [registroExitoso, setRegistroExitoso] = useState(true);
 
     const [formData, setFormData] = useState({
         name: '',
@@ -50,10 +50,9 @@ const UpdateFragrance = () => {
                 });
                 if (response.ok) {
                     // La respuesta fue exitosa, aquí puedes manejar el éxito del registro
-                    console.log('recuperó fragancias');
+                   
                     const value = await response.json(); // Parsear el cuerpo de la respuesta JSON
-                    console.log(value); // Acceder al cuerpo de la respuesta JSON
-                    console.log(formData);
+                    
                     let arreglofiles= []
                     for (let j = 0; j < value.image.length; j++) {  
                         const response = await fetch(value.image[j]);
@@ -67,44 +66,18 @@ const UpdateFragrance = () => {
                         console.log(extension);
                         const randomString = Math.random().toString(36).substring(2); // Genera una cadena aleatoria
                         const fileName = randomString + '.' + extension; // Concatena la cadena aleatoria con la extensión de archivo
-                        console.log(fileName);
-                        //const base64Data = parts[1].split(',')[1];
-        //                const binaryString = atob(base64String);
-                        // // Convertir base64 a array buffer
-        //                const buffer = new ArrayBuffer(binaryString.length);
-                        // let view = new Uint8Array(buffer);
-                        // for (let i = 0; i < base64Data.length; i++) {
-                        //     view[i] = base64Data.charCodeAt(i);
-                        // }
-                        // // Crear objeto Blob
-        //                const blob = new Blob([buffer], { type: contentType });
-                        // // Crear objeto File
                         const file = new File([blob], fileName,  { type: contentType });
-                        // console.log(view);
-                        // console.log(blob);
-                        
-                        console.log(URL.createObjectURL(file));
-                        console.log(file);
-                        // const selectedFiles1 = Array.from(file);
-                        console.log(file);
-                        arreglofiles.push(file);
+                        arreglofiles.push([file]);
                     }
-                    console.log(arreglofiles);
+                 
                     setSelectedfile(arreglofiles);
-                    //setSelectedfile(file);
+                    
                     setSelectedImages([]);
-                    console.log(value.image);
-                    console.log(value.image.length);
-                    // for (let i = 0; i < value.image.length; i++) {
-                    //     selectedImages.push(value.image[i]);
-                    // }
-                     setSelectedImages(value.image);
-                    console.log(selectedImages);
+
+                    setSelectedImages(value.image);
+                    
                     setFormData(value);
-                //   setFormData({
-                //     ...formData,
-                //     image: [file]
-                // });
+          
                     setDetail(value);
                 } else {
                   // La respuesta no fue exitosa, puedes manejar el error de registro
@@ -120,21 +93,24 @@ const UpdateFragrance = () => {
   
         getDetail();
   
-      },[])
+      },[id])
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
         if (name === 'images') {
-            const selectedFiles = Array.from(files);
-            selectedfile.push(files);
-            setSelectedfile(selectedfile);
-            const selectedImagesUrls = selectedFiles.map(file => URL.createObjectURL(file));
-            selectedImages.push(selectedImagesUrls[0]);
-            setSelectedImages(selectedImages);
-            setFormData({
-                ...formData,
-                [name]: selectedImages // Guardar los archivos seleccionados en el estado
-            });
+            console.log(files);
+            if(files.length!==0){
+                const selectedFiles = Array.from(files);
+                selectedfile.push(files);
+                setSelectedfile(selectedfile);
+                const selectedImagesUrls = selectedFiles.map(file => URL.createObjectURL(file));
+                selectedImages.push(selectedImagesUrls[0]);
+                setSelectedImages(selectedImages);
+                setFormData({
+                    ...formData,
+                    [name]: selectedImages // Guardar los archivos seleccionados en el estado
+                });
+            }
         } else {
             setFormData({
                 ...formData,
@@ -143,6 +119,13 @@ const UpdateFragrance = () => {
         }
     };
 
+    const  deseleccionarImagen = (e,index) =>{
+        e.preventDefault();
+        let newArray = selectedfile.filter((element, i) => i !== index);
+        setSelectedfile(newArray);
+        let newArray2 = selectedImages.filter((element, i) => i !== index);
+        setSelectedImages(newArray2);
+    }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -156,7 +139,8 @@ const UpdateFragrance = () => {
         formData1.delete('images');
     
           selectedfile.forEach((image, i) => {
-            formData1.append(`images[]`, image); // Utilizar el nombre "images[]" para todas las imágenes
+            console.log(image);
+            formData1.append(`images[]`, image[0]); // Utilizar el nombre "images[]" para todas las imágenes
         });
 
         console.log(selectedfile);
@@ -264,7 +248,7 @@ const UpdateFragrance = () => {
                 <p className='cargando'>Cargando, espere un momento...</p>
             :
                 <>
-                    {RegistroExitoso ?
+                    {registroExitoso ?
                     (
                     <>
                         
@@ -292,6 +276,7 @@ const UpdateFragrance = () => {
                                 />
                             </label>
                             <br />
+                        <div style={{ display: 'flex' , 'justify-content': 'space-between'}}>
                             <label className='num'>
                                 Precio:
                                 <input
@@ -303,68 +288,7 @@ const UpdateFragrance = () => {
                                     required
                                 />
                             </label>
-                            <br />
-                            <label>
-                                Genero:
-                                <select
-                                name="gender"
-                                value={formData.gender}
-                                onChange={handleChange}
-                                >
-                                <option value="">Selecciona...</option>
-                                <option value="Masculino">Masculino</option>
-                                <option value="Femenino">Femenino</option>
-                                <option value="Mixto">Mixto</option>
-                                </select>
-                            </label>
-                            <br />
-                            <label>
-                                Volumen:
-                                <select
-                                name="volume"
-                                value={formData.volume}
-                                onChange={handleChange}
-                                >
-                                <option value="">Selecciona...</option>
-                                <option value="50">50 mls</option>
-                                <option value="100">100 mls</option>
-                                <option value="150">150 mls</option>
-                                <option value="200">200 mls</option>
-                                <option value="250">250 mls</option>
-                                <option value="300">300 mls</option>
-                                </select>
-                            </label>
-                            <br />
-                            <label>
-                                País:
-                                <select
-                                name="country"
-                                value={formData.country}
-                                onChange={handleChange}
-                                >
-                                <option value="">Selecciona...</option>
-                                <option value="Argentina">Argentina</option>
-                                <option value="Estados Unidos">Estados Unidos</option>
-                                <option value="Francia">Francia</option>
-                                <option value="Italia">Italia</option>
-                                <option value="España">España</option>
-                                <option value="Reino Unido">Reino Unido</option>
-                                {/* Agrega más opciones según lo necesario */}
-                                </select>
-                            </label>
-                            <br />
-                            <label>
-                                Aromas:
-                                <input
-                                type="text"
-                                name="aromas"
-                                value={formData.aromas}
-                                onChange={handleChange}
-                                required
-                                />
-                            </label>
-                            <br />
-                            <label className='num'>
+                            <label style={{ margin: '0px 90px'}} className='num'>
                                 Cuotas:
                                 <input
                                     type="number"
@@ -374,9 +298,8 @@ const UpdateFragrance = () => {
                                     required
                                 />
                             </label>
-                            <br />
                             <label className='num'>
-                                Interes por Cuotas:
+                                Interes:
                                 <input
                                     type="number"
                                     name="interest_on_installments"
@@ -385,7 +308,64 @@ const UpdateFragrance = () => {
                                     required
                                 />
                             </label>
-                            <br />
+                        </div>
+
+                        <br />
+
+                        <div style={{ display: 'flex' , 'justify-content': 'space-between', 'margin-top': '15px'}}>
+
+                        <label>
+                            Genero:
+                            <select
+                            name="gender"
+                            value={formData.gender}
+                            onChange={handleChange}
+                            >
+                            <option value="">Selecciona...</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Femenino">Femenino</option>
+                            <option value="Mixto">Mixto</option>
+                            </select>
+                        </label>
+                        <br />
+                        <label>
+                            Volumen:
+                            <select
+                            name="volume"
+                            value={formData.volume}
+                            onChange={handleChange}
+                            >
+                            <option value="">Selecciona...</option>
+                            <option value="50">50 mls</option>
+                            <option value="100">100 mls</option>
+                            <option value="150">150 mls</option>
+                            <option value="200">200 mls</option>
+                            <option value="250">250 mls</option>
+                            <option value="300">300 mls</option>
+                            </select>
+                        </label>
+                        <br />
+                        <label>
+                            País:
+                            <select
+                            name="country"
+                            value={formData.country}
+                            onChange={handleChange}
+                            >
+                            <option value="">Selecciona...</option>
+                            <option value="Argentina">Argentina</option>
+                            <option value="Estados Unidos">Estados Unidos</option>
+                            <option value="Francia">Francia</option>
+                            <option value="Italia">Italia</option>
+                            <option value="España">España</option>
+                            <option value="Reino Unido">Reino Unido</option>
+                            {/* Agrega más opciones según lo necesario */}
+                            </select>
+                        </label>
+                        </div>
+                        <br />
+                        <div style={{ display: 'flex' , 'justify-content': 'space-evenly' , 'margin-top': '10px'}}>
+
                             <label>
                                 Envio gratis:
                                 <select
@@ -411,6 +391,19 @@ const UpdateFragrance = () => {
                                 <option value="false">No</option>
                                 </select>
                             </label>
+                            
+                        </div>
+                        <br />
+                            <label>
+                                Aromas:
+                                <input
+                                type="text"
+                                name="aromas"
+                                value={formData.aromas}
+                                onChange={handleChange}
+                                required
+                                />
+                            </label>
                             <br />
                             <label>
                                 Descripción:
@@ -423,24 +416,31 @@ const UpdateFragrance = () => {
                             </label>
                             <br />
     
-                            <label>
-                                Imágenes:
+                            <label className='imagen-file'>
+                                
+                                {selectedImages.length > 0 ? (
+                                    <>
+                                        <h3 style={{ marginTop: "0px",marginBottom: '30px' , width:"100%" }}>Vistas previas:</h3>
+                                        <div style={{ display:"flex", "justify-content": "center" }}>
+                                            {selectedImages.map((imageUrl, index) => (
+                                                <div style={{ display:"flex", 'flex-direction': 'column', "align-items": "center", maxWidth: '35%', width: `${100/selectedImages.length}%`, height: '180px' }}>
+                                                    <button onClick={(e)=>{deseleccionarImagen(e,index)}} style={{ width: `auto`, padding:"5px 8px 5px 8px", margin:"0px 0px 5px 0px" }}><i class="fa fa-trash-alt"></i></button>
+                                                    <img key={index} src={imageUrl} alt={`Preview ${index}`} style={{ width: `100%`, height: '150px', border: '1px solid black' }} />
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </>
+                                ): <div style={{ width: '100%' }}>Imágenes:</div>}
                                 <input
                                     type="file"
                                     accept="image/*" // Para permitir solo archivos de imagen
                                     name="images"
                                     multiple // Permitir seleccionar múltiples archivos
                                     onChange={handleChange}
-                                    
+                                    style={{ display: 'none' }} // Oculta el input de archivo
                                 />
-                                {selectedImages.length > 0 && (
-                                    <div>
-                                        <h3>Vistas previas:</h3>
-                                        {selectedImages.map((imageUrl, index) => (
-                                            <img key={index} src={imageUrl} alt={`Preview ${index}`} style={{ maxWidth: '30%' }} />
-                                        ))}
-                                    </div>
-                                )}
+                                <button style={{ width: 'auto', marginTop: "30px" }} type="button" onClick={() => document.querySelector('input[type="file"]').click()}>Seleccionar Imágenes</button>
+
                             </label>
     
                             <button type="submit">Actualizar</button>

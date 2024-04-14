@@ -25,10 +25,7 @@ const Administration = () => {
         <p className="confirmation-message">Usuarios:</p>
         <div className='admin-botones'>
             <div className='boton'>
-                <Link to={`/`}><button>Agregar</button></Link>
-            </div>
-            <div className='boton'>
-                <Link to={`/`}><button>Actualizar</button></Link>
+                <Link to={`/register`}><button>Agregar</button></Link>
             </div>
             <div className='boton'>
                 <Link to={`/`}><button>Eliminar</button></Link>

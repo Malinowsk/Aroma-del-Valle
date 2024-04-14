@@ -29,29 +29,7 @@ const AddFragrance = () => {
         description: ""
     });
 
-
-    // useEffect(() => {
-    //     setRegistroExitoso(true)
-    // },[])
-
-    // const handleChange = (e) => {
-
-    //     const { name, value, files } = e.target;
-    //     const newValue = name === 'image' ? URL.createObjectURL(files[0]) : value;
-    //     console.log(name);
-    //     if (name === 'image') {
-    //         console.log(files[0]);
-    //         if(files[0])
-    //             setSelectedImage(URL.createObjectURL(files[0])); // Crear una URL para la vista previa de la imagen
-    //         else
-    //             setSelectedImage(selectedImage);
-    //     }
-    //    // console.log(URL.createObjectURL(newValue))
-    //     setFormData({
-    //     ...formData,
-    //     [name]: newValue
-    //     });
-    // };
+ 
 
     const handleChange = (e) => {
         const { name, value, files } = e.target;
@@ -59,23 +37,26 @@ const AddFragrance = () => {
         console.log(value);
         console.log(files + "estee");
         if (name === 'images') {
-            const selectedFiles = Array.from(files);
+            console.log(files.length);
+            if(files.length!==0){
+                const selectedFiles = Array.from(files);
 
-            console.log(files);
-            selectedfile.push(files);
-            setSelectedfile(selectedfile);
+                console.log(files);
+                selectedfile.push(files);
+                setSelectedfile(selectedfile);
 
-            const selectedImagesUrls = selectedFiles.map(file => URL.createObjectURL(file));
-            // console.log(selectedImagesUrls);
+                const selectedImagesUrls = selectedFiles.map(file => URL.createObjectURL(file));
+                // console.log(selectedImagesUrls);
 
-            console.log(selectedfile);
-            selectedImages.push(selectedImagesUrls[0]);
-            setSelectedImages(selectedImages);
-            console.log(selectedImages);
-            setFormData({
-                ...formData,
-                [name]: selectedImages // Guardar los archivos seleccionados en el estado
-            });
+                console.log(selectedfile);
+                selectedImages.push(selectedImagesUrls[0]);
+                setSelectedImages(selectedImages);
+                console.log(selectedImages);
+                setFormData({
+                    ...formData,
+                    [name]: selectedImages // Guardar los archivos seleccionados en el estado
+                });
+            }
         } else {
             setFormData({
                 ...formData,
@@ -84,6 +65,13 @@ const AddFragrance = () => {
         }
     };
 
+const  deseleccionarImagen = (e,index) =>{
+    e.preventDefault();
+    let newArray = selectedfile.filter((element, i) => i !== index);
+    setSelectedfile(newArray);
+    let newArray2 = selectedImages.filter((element, i) => i !== index);
+    setSelectedImages(newArray2);
+}
 
     
 
@@ -238,18 +226,44 @@ const AddFragrance = () => {
                             />
                         </label>
                         <br />
-                        <label className='num'>
-                            Precio:
-                            <input
-                                type="number"
-                                step="0.01" // Para permitir decimales
-                                name="price"
-                                value={formData.price}
-                                onChange={handleChange}
-                                required
-                            />
-                        </label>
+                        <div style={{ display: 'flex' , 'justify-content': 'space-between'}}>
+                            <label className='num'>
+                                Precio:
+                                <input
+                                    type="number"
+                                    step="0.01" // Para permitir decimales
+                                    name="price"
+                                    value={formData.price}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </label>
+                            <label style={{ margin: '0px 90px'}} className='num'>
+                                Cuotas:
+                                <input
+                                    type="number"
+                                    name="installments"
+                                    value={formData.installments}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </label>
+                            <label className='num'>
+                                Interes:
+                                <input
+                                    type="number"
+                                    name="interest_on_installments"
+                                    value={formData.interest_on_installments}
+                                    onChange={handleChange}
+                                    required
+                                />
+                            </label>
+                        </div>
+
                         <br />
+
+                        <div style={{ display: 'flex' , 'justify-content': 'space-between', 'margin-top': '15px'}}>
+
                         <label>
                             Genero:
                             <select
@@ -298,6 +312,37 @@ const AddFragrance = () => {
                             {/* Agrega más opciones según lo necesario */}
                             </select>
                         </label>
+                        </div>
+                        <br />
+                        <div style={{ display: 'flex' , 'justify-content': 'space-evenly' , 'margin-top': '10px'}}>
+
+                            <label>
+                                Envio gratis:
+                                <select
+                                name="free_shipping"
+                                value={formData.free_shipping}
+                                onChange={handleChange}
+                                >
+                                <option value="">Selecciona...</option>
+                                <option value="true">Si</option>
+                                <option value="false">No</option>
+                                </select>
+                            </label>
+                            <br />
+                            <label>
+                                Más vendido:
+                                <select
+                                name="best_seller"
+                                value={formData.best_seller}
+                                onChange={handleChange}
+                                >
+                                <option value="">Selecciona...</option>
+                                <option value="true">Si</option>
+                                <option value="false">No</option>
+                                </select>
+                            </label>
+                            
+                        </div>
                         <br />
                         <label>
                             Aromas:
@@ -309,54 +354,7 @@ const AddFragrance = () => {
                             required
                             />
                         </label>
-                        <br />
-                        <label className='num'>
-                            Cuotas:
-                            <input
-                                type="number"
-                                name="installments"
-                                value={formData.installments}
-                                onChange={handleChange}
-                                required
-                            />
-                        </label>
-                        <br />
-                        <label className='num'>
-                            Interes por Cuotas:
-                            <input
-                                type="number"
-                                name="interest_on_installments"
-                                value={formData.interest_on_installments}
-                                onChange={handleChange}
-                                required
-                            />
-                        </label>
-                        <br />
-                        <label>
-                            Envio gratis:
-                            <select
-                            name="free_shipping"
-                            value={formData.free_shipping}
-                            onChange={handleChange}
-                            >
-                            <option value="">Selecciona...</option>
-                            <option value="true">Si</option>
-                            <option value="false">No</option>
-                            </select>
-                        </label>
-                        <br />
-                        <label>
-                            Más vendido:
-                            <select
-                            name="best_seller"
-                            value={formData.best_seller}
-                            onChange={handleChange}
-                            >
-                            <option value="">Selecciona...</option>
-                            <option value="true">Si</option>
-                            <option value="false">No</option>
-                            </select>
-                        </label>
+                        
                         <br />
                         <label>
                             Descripción:
@@ -369,8 +367,21 @@ const AddFragrance = () => {
                         </label>
                         <br />
 
-                        <label>
-                            Imágenes:
+                        <label className='imagen-file'>
+                            {selectedImages.length > 0 ? (
+                                <div>
+                                    <h3 style={{ marginTop: "0px",marginBottom: '30px' , width:"100%" }}>Vistas previas:</h3>
+                                    <div style={{ display:"flex", "justify-content": "center" }}>
+                                        {selectedImages.map((imageUrl, index) => (
+                                            <div style={{ display:"flex", 'flex-direction': 'column', "align-items": "center", maxWidth: '35%', width: `${100/selectedImages.length}%`, height: '180px' }}>
+                                                <button onClick={(e)=>{deseleccionarImagen(e,index)}} style={{ width: `auto`, padding:"5px 8px 5px 8px", margin:"0px 0px 5px 0px" }}><i className="fa fa-trash-alt"></i></button>
+                                                <img key={index} src={imageUrl} alt={`Preview ${index}`} style={{ width: `100%`, height: '150px', border: '1px solid black' }} />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            ):<div style={{ width: '100%' }}>Imágenes:</div>}
+                            
                             <input
                                 type="file"
                                 accept="image/*" // Para permitir solo archivos de imagen
@@ -378,15 +389,10 @@ const AddFragrance = () => {
                                 multiple // Permitir seleccionar múltiples archivos
                                 onChange={handleChange}
                                 required
+                                style={{ display: 'none' }} // Oculta el input de archivo
                             />
-                            {selectedImages.length > 0 && (
-                                <div>
-                                    <h3>Vistas previas:</h3>
-                                    {selectedImages.map((imageUrl, index) => (
-                                        <img key={index} src={imageUrl} alt={`Preview ${index}`} style={{ maxWidth: '30%' }} />
-                                    ))}
-                                </div>
-                            )}
+                            <button style={{ width: 'auto', marginTop: "30px"}} type="button" onClick={() => document.querySelector('input[type="file"]').click()}>Seleccionar Imágenes</button>
+
                         </label>
 
                         <button type="submit">Agregar</button>

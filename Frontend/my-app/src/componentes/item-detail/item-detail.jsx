@@ -1,4 +1,4 @@
-import { React, useState } from "react"
+import { React, useState, useEffect } from "react"
 import './item-detail.css'
 import { Link } from 'react-router-dom';
 
@@ -44,6 +44,40 @@ const ItemDetail = ({action,item}) => {
     }
   };
  
+  const [slideIndex, setSlideIndex] = useState(1);
+
+// showSlides(slideIndex);
+
+// function plusSlides(n) {
+//   showSlides(slideIndex += n);
+// }
+
+
+
+const showSlides = (n) => {
+  let i;
+  console.log(n);
+  setSlideIndex(n);
+  let slides = document.getElementsByClassName("mySlides");
+  let dots = document.getElementsByClassName("dot");
+  if (n > slides.length) {setSlideIndex(1); n=1}    
+  if (n < 1) {setSlideIndex(slides.length);n=slides.length;}
+  for (let i = 0; i < slides.length; i++) {
+    slides[i].style.display = "none";  
+  }
+  for (i = 0; i < dots.length; i++) {
+    dots[i].className = dots[i].className.replace(" active", "");
+  }
+  slides[n-1].style.display = "block";  
+  dots[n-1].className += " active";
+  console.log(slideIndex);
+}
+
+
+useEffect(() => {
+  showSlides(1);
+},[]);  
+
 
   return (
   <>
@@ -59,7 +93,23 @@ const ItemDetail = ({action,item}) => {
 
         <div className={action ? "grid-container altura":"grid-container"}>
           <div className='image-container'>  
-            <img src={image[0]} alt="Cerveza"/>  
+            <div className="slideshow-container">
+            
+              <button className="prev" onClick={() => showSlides(slideIndex-1)}> ❮ </button>
+            
+              {image.map((img, index) => (
+                <div key={index} className="mySlides fade">
+                  <img src={img} alt={`imagen${index + 1}`} />
+                </div>
+              ))}
+              <button className="next" onClick={() => showSlides(slideIndex+1)}> ❯ </button>
+            </div>
+            <div>
+              {image.map((img, index) => (
+                
+                  <span  key={index} className="dot" onClick={() => showSlides(index+1)}></span>  
+              ))}
+            </div>
           </div>
           <div className='data-container'>
             <h1> {brand} {name} {volume} ml</h1>

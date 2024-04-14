@@ -23,6 +23,7 @@
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
+    text-align: center;
   }
   
   input[type="text"]::placeholder,
@@ -83,11 +84,11 @@
   }
 
   select{
-    margin-left: 10px;
+    margin-left: 5px;
   }
 
   .num{
-    margin: 0% 40%;
+    margin: 0%;
   }
 
   form div h3{
@@ -99,6 +100,7 @@
   }
 
   .descripcion{
+    border: 1px solid #ccc;
     min-width: 100%;
     min-height: 100px;
     max-width: 100%;
