@@ -72,5 +72,5 @@ Este proyecto está bajo la Licencia [MIT](LICENSE).
 
 ¡Mira una demostración del software en acción!
 
-[![Demostración del Software](portada.png)](https://www.youtube.com/watch?v=7r5e_UW9vAY)
+[![Demostración del Software](portada.png)](https://www.youtube.com/watch?v=Y6n3NqlCkIY)
 
